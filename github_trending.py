@@ -9,18 +9,21 @@ def get_current_date_minus_week():
 
 
 def get_trending_repositories(delta_date, top_size):
-    r = requests.get(
-        'https://api.github.com/search/repositories?q=created:>'
-        + '{}&page=1&per_page={}&sort=stars&order=desc'
-        .format(delta_date, top_size))
-    return r.json()
+    created_param = 'created:>' + str(delta_date)
+    parameters = {
+        'q': created_param, 'page': 1, 'per_page': top_size, 'sort': 'stars'}
+    trending_repositories = requests.get(
+        'https://api.github.com/search/repositories', params=parameters)
+    return trending_repositories.json()
 
 
 def get_output_data_to_console(full_repositories_data):
     repositories_data = full_repositories_data['items']
     print('Name, url and count of open issues: ')
-    for datas in repositories_data:
-    	print(datas['full_name'], datas['html_url'], datas['open_issues'])
+    for repositories in repositories_data:
+        print(
+            repositories['full_name'], repositories['html_url'],
+            repositories['open_issues'])
 
 
 if __name__ == '__main__':
