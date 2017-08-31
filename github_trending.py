@@ -3,13 +3,14 @@ import datetime
 
 
 def get_current_date_minus_week():
+    delta_week = 1
     current_data = datetime.date.today()
-    delta_date = current_data + datetime.timedelta(weeks=-1)
+    delta_date = current_data + datetime.timedelta(weeks=-delta_week)
     return delta_date
 
 
 def get_trending_repositories(delta_date, top_size):
-    created_param = "".join(('created:>', str(delta_date)))
+    created_param = "{}{}".format('created:>', str(delta_date))
     page_number = 1
     parameters = {
         'q': created_param, 'page': page_number,
